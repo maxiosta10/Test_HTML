@@ -41,7 +41,7 @@
         }
     </style>
 </head>
-<body>
+<body onload="window.print()">
 
     <h1>Testing HTML para impresión rápida</h1>
 
@@ -79,10 +79,10 @@
 
         // Mostrar la imagen SVG en la página
         if (parametros.imagen) {
-            document.getElementById('svg-container').innerHTML = parametros.imagen;
+            // Decodificamos y mostramos el SVG
+            document.getElementById('svg-container').innerHTML = atob(parametros.imagen);
         }
     </script>
 
 </body>
 </html>
-
