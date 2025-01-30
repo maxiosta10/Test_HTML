@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Testing HTML para impresión rápida</title>
     <style>
-        /* Configuración de la página en formato A4 */
         @page {
             size: A4;
             margin: 20mm;
@@ -51,7 +50,7 @@
         }
 
         td {
-            width: 50%; /* Ajustar el ancho de las columnas */
+            width: 50%;
         }
 
         .nota {
@@ -64,16 +63,23 @@
             font-size: 16px;
         }
 
-        /* Estilo para el logo */
         .logo {
             position: absolute;
             top: 20mm;
             right: 20mm;
-            width: 100px; /* Ajusta el tamaño del logo */
+            width: 100px;
             height: auto;
         }
 
-        /* Ocultar elementos no deseados en la impresión */
+        .imagen-container {
+            margin-top: 20px;
+        }
+
+        .imagen-container img {
+            max-width: 100%;
+            height: auto;
+        }
+
         @media print {
             body {
                 margin: 0;
@@ -88,7 +94,6 @@
 </head>
 <body>
     <div class="contenedor">
-        <!-- Logo en la parte superior derecha -->
         <img src="https://raw.githubusercontent.com/maxiosta10/Test_HTML/53bedaabd5922816e1a483708bfd8c4660d68223/Captura%20de%20pantalla%202024-12-02%20195527.png" alt="Logo" class="logo">
 
         <h1>Testing HTML para impresión rápida</h1>
@@ -100,9 +105,14 @@
                 </tr>
             </thead>
             <tbody id="facturas-table">
-                <!-- La tabla se llenará aquí mediante JavaScript -->
+                <!-- Se llenará con JavaScript -->
             </tbody>
         </table>
+
+        <!-- Contenedor de la imagen SVG -->
+        <div class="imagen-container">
+            <img id="imagen-svg" src="" alt="Imagen generada">
+        </div>
 
         <div class="nota">
             Esto es todo amigos
@@ -114,15 +124,14 @@
             const params = new URLSearchParams(url);
             return {
                 conceptos: params.get('conceptos').split(','),
-                montos: params.get('montos').split(',')
+                montos: params.get('montos').split(','),
+                imagen: params.get('svg') // URL de la imagen SVG desde AppSheet
             };
         }
 
-        // Obtener los parámetros de la URL
         const parametros = obtenerParametros(window.location.search);
-
-        // Rellenar la tabla con los valores
         const tabla = document.getElementById('facturas-table');
+
         for (let i = 0; i < parametros.conceptos.length; i++) {
             const fila = document.createElement('tr');
             const celdaConcepto = document.createElement('td');
@@ -136,7 +145,13 @@
             tabla.appendChild(fila);
         }
 
-        // Ejecutar automáticamente la impresión al cargar la página
+        // Mostrar imagen SVG si está definida
+        const imagenSvg = document.getElementById('imagen-svg');
+        if (parametros.imagen) {
+            imagenSvg.src = decodeURIComponent(parametros.imagen);
+        }
+
+        // Ejecutar automáticamente la impresión
         window.print();
     </script>
 </body>
