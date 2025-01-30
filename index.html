@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tabla de Facturas</title>
+    <title>Tabla de Costos</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -26,36 +26,48 @@
         }
     </style>
     <script>
+        // 🔹 Función para obtener parámetros de la URL
         function obtenerParametro(nombre) {
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(nombre);
+            return urlParams.get(nombre); // Devuelve el valor del parámetro o null si no existe
         }
 
+        // 🔹 Función que construye la tabla dinámicamente
         function construirTabla() {
-            let facturas = obtenerParametro("facturas");
+            let facturas = obtenerParametro("facturas"); // Obtener el parámetro 'facturas' de la URL
 
             if (!facturas) {
+                // Si no hay datos, mostramos un mensaje
                 document.getElementById("tabla").innerHTML = "<p>No hay datos disponibles.</p>";
                 return;
             }
 
+            // 🔹 Convertimos la lista de facturas en un array (separando por comas)
             let listaFacturas = facturas.split(",");
-            let tablaHTML = "<table><tr><th>Factura</th></tr>";
 
+            // 🔹 Creamos la estructura de la tabla con 2 columnas: Concepto y Monto
+            let tablaHTML = "<table><tr><th>Concepto</th><th>Monto</th></tr>";
+
+            // 🔹 Recorremos la lista de facturas (cada elemento tiene el formato "Concepto|Monto")
             listaFacturas.forEach(factura => {
-                tablaHTML += `<tr><td>${factura}</td></tr>`;
+                let columnas = factura.split("|"); // Separar por el delimitador '|'
+                tablaHTML += `<tr><td>${columnas[0]}</td><td>${columnas[1]}</td></tr>`; // Crear una fila con Concepto y Monto
             });
 
-            tablaHTML += "</table>";
+            tablaHTML += "</table>"; // Cerramos la tabla
+
+            // 🔹 Insertamos la tabla generada en el div con id 'tabla'
             document.getElementById("tabla").innerHTML = tablaHTML;
         }
 
+        // 🔹 Ejecutamos la función cuando la página se carga
         window.onload = construirTabla;
     </script>
 </head>
 <body>
-    <h2>Facturas</h2>
-    <div id="tabla">Cargando...</div>
+    <h2>Costos</h2>
+    <div id="tabla">Cargando...</div> <!-- Aquí se insertará la tabla -->
 </body>
 </html>
+
 
