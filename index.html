@@ -5,84 +5,139 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Testing HTML para impresión rápida</title>
     <style>
+        /* Configuración de la página en formato A4 */
+        @page {
+            size: A4;
+            margin: 20mm;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .contenedor {
             width: 210mm;
             height: 297mm;
+            margin: auto;
+            padding: 20mm;
+            box-sizing: border-box;
+            background-color: white;
         }
+
         h1 {
-            text-align: center;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: lightgray;
-            font-weight: bold;
-        }
-        .nota {
-            border: 2px solid red;
+            background-color: #f2f2f2;
             padding: 10px;
-            text-align: center;
-            margin-top: 20px;
+            margin-top: 0;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px auto;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid black;
+        }
+
+        th {
+            background-color: #d3d3d3;
             font-weight: bold;
         }
-        .imagen-container {
-            text-align: center;
-            margin-top: 20px;
+
+        td {
+            width: 50%; /* Ajustar el ancho de las columnas */
+        }
+
+        .nota {
+            background-color: red;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 20px auto;
+            width: 80%;
+            font-size: 16px;
+        }
+
+        /* Estilo para el logo */
+        .logo {
+            position: absolute;
+            top: 20mm;
+            right: 20mm;
+            width: 100px; /* Ajusta el tamaño del logo */
+            height: auto;
+        }
+
+        /* Ocultar elementos no deseados en la impresión */
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            .contenedor {
+                width: 100%;
+                height: auto;
+            }
         }
     </style>
 </head>
-<body onload="window.print()">
+<body>
+    <div class="contenedor">
+        <!-- Logo en la parte superior derecha -->
+        <img src="https://raw.githubusercontent.com/maxiosta10/Test_HTML/53bedaabd5922816e1a483708bfd8c4660d68223/Captura%20de%20pantalla%202024-12-02%20195527.png" alt="Logo" class="logo">
 
-    <h1>Testing HTML para impresión rápida</h1>
+        <h1>Testing HTML para impresión rápida</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Concepto</th>
+                    <th>Monto</th>
+                </tr>
+            </thead>
+            <tbody id="facturas-table">
+                <!-- La tabla se llenará aquí mediante JavaScript -->
+            </tbody>
+        </table>
 
-    <table>
-        <tr>
-            <th>Concepto</th>
-            <th>Monto</th>
-        </tr>
-        <tbody id="tabla-body"></tbody>
-    </table>
-
-    <div class="imagen-container" id="svg-container"></div>
-
-    <div class="nota">Esto es todo amigos</div>
+        <div class="nota">
+            Esto es todo amigos
+        </div>
+    </div>
 
     <script>
         function obtenerParametros(url) {
             const params = new URLSearchParams(url);
             return {
-                conceptos: params.get('conceptos') ? params.get('conceptos').split(',') : [],
-                montos: params.get('montos') ? params.get('montos').split(',') : [],
-                imagen: params.get('svg') ? decodeURIComponent(params.get('svg')) : null
+                conceptos: params.get('conceptos').split(','),
+                montos: params.get('montos').split(',')
             };
         }
 
+        // Obtener los parámetros de la URL
         const parametros = obtenerParametros(window.location.search);
 
-        // Llenar la tabla con los datos de AppSheet
-        const tablaBody = document.getElementById('tabla-body');
+        // Rellenar la tabla con los valores
+        const tabla = document.getElementById('facturas-table');
         for (let i = 0; i < parametros.conceptos.length; i++) {
             const fila = document.createElement('tr');
-            fila.innerHTML = `<td>${parametros.conceptos[i]}</td><td>${parametros.montos[i]}</td>`;
-            tablaBody.appendChild(fila);
+            const celdaConcepto = document.createElement('td');
+            const celdaMonto = document.createElement('td');
+
+            celdaConcepto.textContent = parametros.conceptos[i];
+            celdaMonto.textContent = parametros.montos[i];
+
+            fila.appendChild(celdaConcepto);
+            fila.appendChild(celdaMonto);
+            tabla.appendChild(fila);
         }
 
-        // Mostrar la imagen SVG en la página
-        if (parametros.imagen) {
-            // Decodificamos y mostramos el SVG
-            document.getElementById('svg-container').innerHTML = atob(parametros.imagen);
-        }
+        // Ejecutar automáticamente la impresión al cargar la página
+        window.print();
     </script>
-
 </body>
 </html>
