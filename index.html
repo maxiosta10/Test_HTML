@@ -3,43 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cuadrado con Texto</title>
+    <title>Tabla de Facturas</title>
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
         }
-        .cuadrado {
-            width: 200px;
-            height: 200px;
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: auto;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
             background-color: #3498db;
             color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 20px;
-            font-weight: bold;
-            border-radius: 10px;
-            text-align: center;
-            padding: 10px;
         }
     </style>
     <script>
         function obtenerParametro(nombre) {
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(nombre) || "Hola Mundo"; // Si no hay parámetro, usa "Hola Mundo" por defecto
+            return urlParams.get(nombre);
         }
 
-        window.onload = function() {
-            document.getElementById("texto").innerText = obtenerParametro("mensaje");
-        };
+        function construirTabla() {
+            let facturas = obtenerParametro("facturas");
+
+            if (!facturas) {
+                document.getElementById("tabla").innerHTML = "<p>No hay datos disponibles.</p>";
+                return;
+            }
+
+            let listaFacturas = facturas.split(",");
+            let tablaHTML = "<table><tr><th>Factura</th></tr>";
+
+            listaFacturas.forEach(factura => {
+                tablaHTML += `<tr><td>${factura}</td></tr>`;
+            });
+
+            tablaHTML += "</table>";
+            document.getElementById("tabla").innerHTML = tablaHTML;
+        }
+
+        window.onload = construirTabla;
     </script>
 </head>
 <body>
-    <div class="cuadrado" id="texto">Cargando...</div>
+    <h2>Facturas</h2>
+    <div id="tabla">Cargando...</div>
 </body>
 </html>
+
