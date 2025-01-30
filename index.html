@@ -5,33 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Testing HTML para impresión rápida</title>
     <style>
+        /* Configuración de la página en formato A4 */
+        @page {
+            size: A4;
+            margin: 20mm;
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             text-align: center;
         }
+
+        .contenedor {
+            width: 210mm;
+            height: 297mm;
+            margin: auto;
+            padding: 20mm;
+            box-sizing: border-box;
+            background-color: white;
+        }
+
         h1 {
             background-color: #f2f2f2;
             padding: 10px;
             margin-top: 0;
         }
+
         table {
             border-collapse: collapse;
-            width: 50%;
+            width: 100%;
             margin: 20px auto;
         }
+
         th, td {
             padding: 10px;
             text-align: left;
+            border: 1px solid black;
         }
+
         th {
             background-color: #d3d3d3;
             font-weight: bold;
         }
+
         td {
             width: 50%; /* Ajustar el ancho de las columnas */
         }
+
         .nota {
             background-color: red;
             color: white;
@@ -45,32 +67,46 @@
         /* Estilo para el logo */
         .logo {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 20mm;
+            right: 20mm;
             width: 100px; /* Ajusta el tamaño del logo */
             height: auto;
+        }
+
+        /* Ocultar elementos no deseados en la impresión */
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            .contenedor {
+                width: 100%;
+                height: auto;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Logo en la parte superior derecha -->
-    <img src="https://raw.githubusercontent.com/maxiosta10/Test_HTML/53bedaabd5922816e1a483708bfd8c4660d68223/Captura%20de%20pantalla%202024-12-02%20195527.png" alt="Logo" class="logo">
+    <div class="contenedor">
+        <!-- Logo en la parte superior derecha -->
+        <img src="https://raw.githubusercontent.com/maxiosta10/Test_HTML/53bedaabd5922816e1a483708bfd8c4660d68223/Captura%20de%20pantalla%202024-12-02%20195527.png" alt="Logo" class="logo">
 
-    <h1>Testing HTML para impresión rápida</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Concepto</th>
-                <th>Monto</th>
-            </tr>
-        </thead>
-        <tbody id="facturas-table">
-            <!-- La tabla se llenará aquí mediante JavaScript -->
-        </tbody>
-    </table>
+        <h1>Testing HTML para impresión rápida</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Concepto</th>
+                    <th>Monto</th>
+                </tr>
+            </thead>
+            <tbody id="facturas-table">
+                <!-- La tabla se llenará aquí mediante JavaScript -->
+            </tbody>
+        </table>
 
-    <div class="nota">
-        Esto es todo amigos
+        <div class="nota">
+            Esto es todo amigos
+        </div>
     </div>
 
     <script>
@@ -105,6 +141,4 @@
     </script>
 </body>
 </html>
-
-
 
