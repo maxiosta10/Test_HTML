@@ -24,10 +24,22 @@
             font-size: 20px;
             font-weight: bold;
             border-radius: 10px;
+            text-align: center;
+            padding: 10px;
         }
     </style>
+    <script>
+        function obtenerParametro(nombre) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(nombre) || "Hola Mundo"; // Si no hay parámetro, usa "Hola Mundo" por defecto
+        }
+
+        window.onload = function() {
+            document.getElementById("texto").innerText = obtenerParametro("mensaje");
+        };
+    </script>
 </head>
 <body>
-    <div class="cuadrado">Hola Mundo</div>
+    <div class="cuadrado" id="texto">Cargando...</div>
 </body>
 </html>
