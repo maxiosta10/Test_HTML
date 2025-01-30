@@ -3,71 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tabla de Costos</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 20px;
-        }
-        table {
-            width: 50%;
-            border-collapse: collapse;
-            margin: auto;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #3498db;
-            color: white;
-        }
-    </style>
-    <script>
-        // 🔹 Función para obtener parámetros de la URL
-        function obtenerParametro(nombre) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(nombre); // Devuelve el valor del parámetro o null si no existe
-        }
-
-        // 🔹 Función que construye la tabla dinámicamente
-        function construirTabla() {
-            let facturas = obtenerParametro("facturas"); // Obtener el parámetro 'facturas' de la URL
-
-            if (!facturas) {
-                // Si no hay datos, mostramos un mensaje
-                document.getElementById("tabla").innerHTML = "<p>No hay datos disponibles.</p>";
-                return;
-            }
-
-            // 🔹 Convertimos la lista de facturas en un array (separando por comas)
-            let listaFacturas = facturas.split(",");
-
-            // 🔹 Creamos la estructura de la tabla con 2 columnas: Concepto y Monto
-            let tablaHTML = "<table><tr><th>Concepto</th><th>Monto</th></tr>";
-
-            // 🔹 Recorremos la lista de facturas (cada elemento tiene el formato "Concepto|Monto")
-            listaFacturas.forEach(factura => {
-                let columnas = factura.split("|"); // Separar por el delimitador '|'
-                tablaHTML += `<tr><td>${columnas[0]}</td><td>${columnas[1]}</td></tr>`; // Crear una fila con Concepto y Monto
-            });
-
-            tablaHTML += "</table>"; // Cerramos la tabla
-
-            // 🔹 Insertamos la tabla generada en el div con id 'tabla'
-            document.getElementById("tabla").innerHTML = tablaHTML;
-        }
-
-        // 🔹 Ejecutamos la función cuando la página se carga
-        window.onload = construirTabla;
-    </script>
+    <title>Tabla de Facturas</title>
 </head>
 <body>
-    <h2>Costos</h2>
-    <div id="tabla">Cargando...</div> <!-- Aquí se insertará la tabla -->
+    <h1>Facturas</h1>
+    <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; width: 100%; text-align: left;">
+        <thead>
+            <tr>
+                <th>Concepto</th>
+                <th>Monto</th>
+            </tr>
+        </thead>
+        <tbody id="facturas-table">
+            <!-- La tabla se llenará aquí mediante JavaScript -->
+        </tbody>
+    </table>
+
+    <script>
+        function obtenerParametros(url) {
+            const params = new URLSearchParams(url);
+            return {
+                conceptos: params.get('conceptos').split(','),
+                montos: params.get('montos').split(',')
+            };
+        }
+
+        // Obtener los parámetros de la URL
+        const parametros = obtenerParametros(window.location.search);
+
+        // Rellenar la tabla con los valores
+        const tabla = document.getElementById('facturas-table');
+        for (let i = 0; i < parametros.conceptos.length; i++) {
+            const fila = document.createElement('tr');
+            const celdaConcepto = document.createElement('td');
+            const celdaMonto = document.createElement('td');
+
+            celdaConcepto.textContent = parametros.conceptos[i];
+            celdaMonto.textContent = parametros.montos[i];
+
+            fila.appendChild(celdaConcepto);
+            fila.appendChild(celdaMonto);
+            tabla.appendChild(fila);
+        }
+    </script>
 </body>
 </html>
-
 
