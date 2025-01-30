@@ -3,11 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tabla de Facturas</title>
+    <title>Testing HTML para impresión rápida</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        h1 {
+            background-color: #f2f2f2;
+            padding: 10px;
+            margin-top: 0;
+        }
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            margin: 20px auto;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #d3d3d3;
+            font-weight: bold;
+        }
+        td {
+            width: 50%; /* Ajustar el ancho de las columnas */
+        }
+        .nota {
+            background-color: red;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 20px auto;
+            width: 80%;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Facturas</h1>
-    <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; width: 100%; text-align: left;">
+    <h1>Testing HTML para impresión rápida</h1>
+    <table border="1">
         <thead>
             <tr>
                 <th>Concepto</th>
@@ -18,6 +56,10 @@
             <!-- La tabla se llenará aquí mediante JavaScript -->
         </tbody>
     </table>
+
+    <div class="nota">
+        Esto es todo amigos
+    </div>
 
     <script>
         function obtenerParametros(url) {
@@ -48,4 +90,5 @@
     </script>
 </body>
 </html>
+
 
